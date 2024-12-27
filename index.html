@@ -113,12 +113,12 @@
   <!-- Scattered Parts of the Streaming URL with Token -->
   <script>
     const base1 = "https://";
-    const base2 = "65.scjustfor.info";
+    const base2 = "59.scjustfor.info";
     const path1 = "/mobile";
-    const path2 = "/stream6_240p";
+    const path2 = "/stream2_240p";
     const file = "/playlist.m3u8";
-    const query1 = "?vidictid=200841055668";
-    const query2 = "&id=21";
+    const query1 = "?vidictid=200847421564";
+    const query2 = "&id=6";
     const query3 = "&pk=5d004c5dd9e0d07e452c1874f703623c404afbc668a720f1f368b3729cca043d";
     const token = generateToken();  // A function to generate a secure token
 
@@ -162,12 +162,12 @@
       } else {
         player.configure({ abr: { enabled: false } }); // Disable auto quality
         const resolutionMap = {
-          144: "stream6_144p/playlist.m3u8",
-          240: "stream6_240p/playlist.m3u8",
-          360: "stream6_360p/playlist.m3u8",
-          480: "stream6_480p/playlist.m3u8",
-          720: "stream6_720p/playlist.m3u8",
-          1080: "stream6_1080p/playlist.m3u8",
+          144: "stream2_144p/playlist.m3u8",
+          240: "stream2_240p/playlist.m3u8",
+          360: "stream2_360p/playlist.m3u8",
+          480: "stream2_480p/playlist.m3u8",
+          720: "stream2_720p/playlist.m3u8",
+          1080: "stream2_1080p/playlist.m3u8",
         };
         const newSource = `${base1}${base2}${path1}/${resolutionMap[selectedQuality]}?token=${token}`;
         player.load(newSource);

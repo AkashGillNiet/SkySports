@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Niet EnterSports</title>
+  <link href="https://cdn.jsdelivr.net/npm/shaka-player@3.0.3/dist/controls.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      height: 100%;
+    }
+    .video-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+    .logo img {
+      width: 100px;
+      height: auto;
+    }
+    .quality-select {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 15;
+    }
+    .quality-select select {
+      background-color: #2c2c2c;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      z-index: 20;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      text-align: center;
+    }
+    .popup-content {
+      background-color: #2c2c2c;
+      color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+    }
+    .popup button {
+      background-color: #6a4e23;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="video-container">
+    <video id="video" controls></video>
+    <div class="logo">
+      <img src="https://raw.githubusercontent.com/AkashGillNiet/TNT3/refs/heads/main/nes.png" alt="Logo">
+    </div>
+    <div class="quality-select">
+      <select id="quality">
+        <option value="auto">Auto</option>
+        <option value="144">144p</option>
+        <option value="240">240p</option>
+        <option value="360">360p</option>
+        <option value="480">480p</option>
+        <option value="720">720p</option>
+        <option value="1080">1080p</option>
+      </select>
+    </div>
+  </div>
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2>Join our Telegram Channel</h2>
+      <button id="join-now">Join Now</button>
+      <button id="already-joined">Already Joined</button>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.0.3/shaka-player.compiled.js"></script>
+  <script>
+    const streamUrl = "https://65.scjustfor.info/mobile/stream6_240p/playlist.m3u8?vidictid=200841055668&id=21&pk=5d004c5dd9e0d07e452c1874f703623c404afbc668a720f1f368b3729cca043d";
 
+    const player = new shaka.Player(document.getElementById('video'));
+    player.addEventListener('error', (event) => {
+      console.error('Error code', event.detail.code, 'object', event.detail);
+    });
+
+    player.load(streamUrl).then(() => {
+      console.log('The video has been loaded!');
+    }).catch((error) => {
+      console.error('Error loading the video:', error);
+    });
+
+    const qualitySelect = document.getElementById('quality');
+    qualitySelect.addEventListener('change', () => {
+      const selectedQuality = qualitySelect.value;
+
+      if (selectedQuality === 'auto') {
+        player.configure({ abr: { enabled: true } });
+      } else {
+        player.configure({ abr: { enabled: false } });
+
+        const tracks = player.getVariantTracks();
+        const resolutionMap = {
+          144: 144,
+          240: 240,
+          360: 360,
+          480: 480,
+          720: 720,
+          1080: 1080,
+        };
+
+        const chosenTrack = tracks.find(track => track.height === resolutionMap[selectedQuality]);
+        if (chosenTrack) player.selectVariantTrack(chosenTrack, true);
+      }
+    });
+
+    window.onload = function() {
+      document.getElementById('popup').style.display = 'flex';
+    };
+
+    document.getElementById('join-now').onclick = function() {
+      window.open('https://t.me/SportsLiveLink18', '_blank');
+      document.getElementById('popup').style.display = 'none';
+    };
+
+    document.getElementById('already-joined').onclick = function() {
+      document.getElementById('popup').style.display = 'none';
+    };
+  </script>
+</body>
+</html>

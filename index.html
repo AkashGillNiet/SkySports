@@ -110,36 +110,28 @@
     </div>
   </div>
 
-  <!-- Scattered Parts of the Streaming URL -->
+  <!-- Scattered Parts of the Streaming URL with Token -->
   <script>
     const base1 = "https://";
-  </script>
-  <script>
     const base2 = "65.scjustfor.info";
-  </script>
-  <script>
     const path1 = "/mobile";
-  </script>
-  <script>
     const path2 = "/stream6_240p";
-  </script>
-  <script>
     const file = "/playlist.m3u8";
-  </script>
-  <script>
     const query1 = "?vidictid=200841055668";
-  </script>
-  <script>
     const query2 = "&id=21";
-  </script>
-  <script>
     const query3 = "&pk=5d004c5dd9e0d07e452c1874f703623c404afbc668a720f1f368b3729cca043d";
-  </script>
+    const token = generateToken();  // A function to generate a secure token
 
-  <!-- Combine the scattered parts -->
-  <script>
+    function generateToken() {
+      // Example: Using the current time and some secret key to generate a token
+      const secretKey = "s3cr3t_key";
+      const timestamp = Date.now();
+      const rawToken = `${timestamp}:${secretKey}`;
+      return btoa(rawToken);  // Base64 encode the token
+    }
+
     function getStreamUrl() {
-      return base1 + base2 + path1 + path2 + file + query1 + query2 + query3;
+      return `${base1}${base2}${path1}${path2}${file}${query1}${query2}${query3}&token=${token}`;
     }
 
     // Initialize Clappr Player with the reconstructed URL
@@ -177,7 +169,7 @@
           720: "stream6_720p/playlist.m3u8",
           1080: "stream6_1080p/playlist.m3u8",
         };
-        const newSource = base1 + base2 + path1 + "/" + resolutionMap[selectedQuality];
+        const newSource = `${base1}${base2}${path1}/${resolutionMap[selectedQuality]}?token=${token}`;
         player.load(newSource);
       }
     });

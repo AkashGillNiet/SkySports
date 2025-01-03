@@ -112,14 +112,12 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clappr-hlsjs-playback@latest/dist/clappr-hlsjs-playback.min.js"></script>
   <script>
-    // Break the stream URL into parts
-    const streamBaseUrl = "https://64.scjustfor.info/mobile/stream6_240p/playlist.m3u8?vidictid=200888195384&id=21&pk=424ceca9053a547cc08491e5f3df51aa7b9aea4cd46f8262a92e164f8dfc2fc5";  // Base URL
-  
-    // Combine URL parts dynamically
-    const streamUrl = streamBaseUrl; // Complete URL
+    // HLS स्ट्रीम का URL
+    const streamUrl = "https://62.scjustfor.info/mobile/stream2_240p/playlist.m3u8?vidictid=200912690036&id=6&pk=aefefe3ee49cf16ecf5cff33950c9ac923a074b5f946db9ec11574daf870dfe7";
 
-    // Initialize Clappr Player
+    // Clappr प्लेयर को इनिशियलाइज़ करें
     const player = new Clappr.Player({
       source: streamUrl,
       parentId: "#video-player",
@@ -135,23 +133,34 @@
         seekbar: "#FFF",
         buttons: "#FFF",
       },
+      plugins: [Clappr.HlsjsPlayback], // HLS.js प्लगइन ऐड करें
     });
 
-    // Handle quality selection
+    // क्वालिटी बदलने के लिए इवेंट हैंडलर
     const qualitySelect = document.getElementById("quality");
     qualitySelect.addEventListener("change", (event) => {
       const selectedQuality = event.target.value;
 
       if (selectedQuality === "auto") {
-        // Reset to auto quality handling
-        player.configure({ playback: { quality: 'auto' } });
+        player.core.getCurrentContainer().playback._hls.currentLevel = -1; // Auto mode
       } else {
-        // Adjust the quality if the option is selected
-        player.configure({ playback: { quality: selectedQuality } });
+        // चयनित क्वालिटी को लेवल में बदलें
+        const qualityLevel = {
+          "144": 0,
+          "240": 1,
+          "360": 2,
+          "480": 3,
+          "720": 4,
+          "1080": 5,
+        }[selectedQuality];
+
+        if (qualityLevel !== undefined) {
+          player.core.getCurrentContainer().playback._hls.currentLevel = qualityLevel;
+        }
       }
     });
 
-    // Sniffer detection: Check for any sniffers and display a message
+    // Sniffer detection: चेक करें कि कोई स्निफर तो नहीं है
     function detectSniffer() {
       const isSnifferDetected = /curl|wget|httpclient|postman|python-requests/i.test(navigator.userAgent);
       if (isSnifferDetected) {
@@ -160,10 +169,10 @@
       }
     }
 
-    // Call sniffer detection on page load
+    // पेज लोड होने पर Sniffer detection चालू करें
     detectSniffer();
 
-    // Show popup on load
+    // पेज लोड होने पर पॉपअप दिखाएं
     window.onload = function() {
       document.getElementById('popup').style.display = 'flex';
     };
@@ -178,4 +187,5 @@
     };
   </script>
 </body>
+  </html></body>
 </html>

@@ -58,11 +58,14 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(5px);
-      display: none;
-      z-index: 20;
+      display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
+      z-index: 20;
+    }
+    .popup.hidden {
+      display: none;
     }
     .popup-content {
       background-color: #2c2c2c;
@@ -112,10 +115,9 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/clappr-hlsjs-playback@latest/dist/clappr-hlsjs-playback.min.js"></script>
   <script>
     // HLS स्ट्रीम का URL
-    const streamUrl = "https://62.scjustfor.info/mobile/stream2_240p/playlist.m3u8?vidictid=200912690036&id=6&pk=aefefe3ee49cf16ecf5cff33950c9ac923a074b5f946db9ec11574daf870dfe7";
+    const streamUrl = "https://64.scjustfor.info/mobile/stream6_240p/playlist.m3u8?vidictid=200888195384&id=21&pk=424ceca9053a547cc08491e5f3df51aa7b9aea4cd46f8262a92e164f8dfc2fc5";
 
     // Clappr प्लेयर को इनिशियलाइज़ करें
     const player = new Clappr.Player({
@@ -133,7 +135,6 @@
         seekbar: "#FFF",
         buttons: "#FFF",
       },
-      plugins: [Clappr.HlsjsPlayback], // HLS.js प्लगइन ऐड करें
     });
 
     // क्वालिटी बदलने के लिए इवेंट हैंडलर
@@ -142,50 +143,21 @@
       const selectedQuality = event.target.value;
 
       if (selectedQuality === "auto") {
-        player.core.getCurrentContainer().playback._hls.currentLevel = -1; // Auto mode
+        console.log("Auto quality selected");
       } else {
-        // चयनित क्वालिटी को लेवल में बदलें
-        const qualityLevel = {
-          "144": 0,
-          "240": 1,
-          "360": 2,
-          "480": 3,
-          "720": 4,
-          "1080": 5,
-        }[selectedQuality];
-
-        if (qualityLevel !== undefined) {
-          player.core.getCurrentContainer().playback._hls.currentLevel = qualityLevel;
-        }
+        console.warn("Quality selection not implemented for this player");
       }
     });
 
-    // Sniffer detection: चेक करें कि कोई स्निफर तो नहीं है
-    function detectSniffer() {
-      const isSnifferDetected = /curl|wget|httpclient|postman|python-requests/i.test(navigator.userAgent);
-      if (isSnifferDetected) {
-        alert('Sniffer detected. Access restricted.');
-        window.location.href = "about:blank"; // Redirect to a blank page
-      }
-    }
-
-    // पेज लोड होने पर Sniffer detection चालू करें
-    detectSniffer();
-
-    // पेज लोड होने पर पॉपअप दिखाएं
-    window.onload = function() {
-      document.getElementById('popup').style.display = 'flex';
-    };
-
+    // पॉपअप हैंडलिंग
     document.getElementById('join-now').onclick = function() {
       window.open('https://t.me/SportsLiveLink18', '_blank');
-      document.getElementById('popup').style.display = 'none';
+      document.getElementById('popup').classList.add('hidden');
     };
 
     document.getElementById('already-joined').onclick = function() {
-      document.getElementById('popup').style.display = 'none';
+      document.getElementById('popup').classList.add('hidden');
     };
   </script>
 </body>
-  </html></body>
 </html>

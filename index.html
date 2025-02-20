@@ -1,163 +1,477 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Niet EnterSports</title>
-  <link href="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.css" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      height: 100%;
-    }
-    .video-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    #video-player {
-      width: 100%;
-      height: 100%;
-    }
-    .logo {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
-    .logo img {
-      width: 100px;
-      height: auto;
-    }
-    .quality-select {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 15;
-    }
-    .quality-select select {
-      background-color: #2c2c2c;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      z-index: 20;
-    }
-    .popup.hidden {
-      display: none;
-    }
-    .popup-content {
-      background-color: #2c2c2c;
-      color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 500px;
-    }
-    .popup button {
-      background-color: #6a4e23;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      margin: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with Intro Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+        }
+        .intro-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .logo {
+            position: absolute;
+            animation: logoAnimation 1.5s forwards;
+        }
+        .logo img {
+            width: 29vw;
+        }
+        .box {
+            position: absolute;
+            left: 25%;
+            top: 50%;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            border-top: 2px solid white;
+            animation: boxAnimation 1.5s 1.5s forwards;
+        }
+
+        @keyframes logoAnimation {
+            0% {
+                transform: scale(1);
+                left: 50%;
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.5);
+                left: 0;
+                opacity: 1;
+            }
+        }
+
+        @keyframes boxAnimation {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 70%;
+                background-color: #FF0000;
+            }
+        }
+
+        /* Website Content Hidden Initially */
+        .main-content {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+    </style>
 </head>
 <body>
-  <div class="video-container">
-    <div id="video-player"></div>
-    <div class="logo">
-      <img src="https://raw.githubusercontent.com/AkashGillNiet/TNT3/refs/heads/main/nes.png" alt="Logo">
+
+    <!-- Intro Animation -->
+    <div class="intro-container">
+        <div class="logo">
+            <img src="https://raw.githubusercontent.com/AkashGillNiet/NietLive/refs/heads/main/Nlogopng-removebg-preview.png" alt="Logo">
+        </div>
+        <div class="box"></div>
     </div>
-    <div class="quality-select">
-      <select id="quality">
-        <option value="auto">Auto</option>
-        <option value="144">144p</option>
-        <option value="240">240p</option>
-        <option value="360">360p</option>
-        <option value="480">480p</option>
-        <option value="720">720p</option>
-        <option value="1080">1080p</option>
-      </select>
+
+    <!-- Website Content -->
+    <div class="main-content">
+        <h1>Welcome to Your Website</h1>
     </div>
-  </div>
 
-  <div class="popup" id="popup">
-    <div class="popup-content">
-      <h2>Join our Telegram Channel</h2>
-      <button id="join-now">Join Now</button>
-      <button id="already-joined">Already Joined</button>
-    </div>
-  </div>
+    <script>
+        // Animation खत्म होने के बाद Intro को हटाकर Main Content दिखाना
+        setTimeout(() => {
+            document.querySelector(".intro-container").style.display = "none";
+            document.querySelector(".main-content").style.display = "flex";
+        }, 3000); // 3 सेकंड बाद हटेगा
+    </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-  <script>
-    // HLS स्ट्रीम का URL
-    const streamUrl = "https://puc2.mylife1.top:8088/mobile/stream4_240p/playlist.m3u8?vidictid=201136360019&id=14&pk=dd0df0c64e56bd098472afc1ddaf8c9a87e4a640a352fcb7b16c8933415fd37d29a1ad94ceddcaf1c74260f88c7374d103071b9af446a6a45d6264a0477ee8cc";
-
-    // Clappr प्लेयर को इनिशियलाइज़ करें
-    const player = new Clappr.Player({
-      source: streamUrl,
-      parentId: "#video-player",
-      autoPlay: true,
-      height: "100%",
-      width: "100%",
-      mute: false,
-      playback: {
-        playInline: true,
-        preload: "auto",
-      },
-      mediacontrol: {
-        seekbar: "#FFF",
-        buttons: "#FFF",
-      },
-    });
-
-    // क्वालिटी बदलने के लिए इवेंट हैंडलर
-    const qualitySelect = document.getElementById("quality");
-    qualitySelect.addEventListener("change", (event) => {
-      const selectedQuality = event.target.value;
-
-      if (selectedQuality === "auto") {
-        console.log("Auto quality selected");
-      } else {
-        console.warn("Quality selection not implemented for this player");
-      }
-    });
-
-    // पॉपअप हैंडलिंग
-    document.getElementById('join-now').onclick = function() {
-      window.open('https://t.me/SportsLiveLink18', '_blank');
-      document.getElementById('popup').classList.add('hidden');
-    };
-
-    document.getElementById('already-joined').onclick = function() {
-      document.getElementById('popup').classList.add('hidden');
-    };
-  </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayMax</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header */
+        #header {
+            background-color: #181818;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            align-items: center;
+        }
+
+        #logo {
+            width: 120px;
+            height: auto;
+        }
+
+        #header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Custom Icons */
+        #notification-btn,
+        #search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        #notification-btn img,
+        #search-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Search Box */
+        #search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            width: 200px;
+            padding: 5px;
+            font-size: 16px;
+            display: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #cancel-btn {
+            display: none;
+            position: absolute;
+            right: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: red;
+        }
+
+        /* Channels */
+        #channels-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .channel-box {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .channel-logo {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .channel-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Notification Popup */
+        #notifications {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            background-color: #fff;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: none;
+        }
+
+        #close-notification {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            float: right;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div id="header">
+    <img id="logo" src="https://raw.githubusercontent.com/AkashGillNiet/NietLive/refs/heads/main/Nlogopng-removebg-preview.png" alt="NietLive Logo">
+    
+    <div id="header-right">
+        <button id="notification-btn" onclick="toggleNotifications()">
+            <img src="https://raw.githubusercontent.com/AkashGillNiet/NietLive/refs/heads/main/images__1_-removebg-preview.png" alt="Notifications">
+        </button>
+
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search channel...." oninput="filterChannels()">
+            <button id="cancel-btn" onclick="toggleSearch()">X</button>
+        </div>
+
+        <button id="search-btn" onclick="toggleSearch()">
+            <img src="https://raw.githubusercontent.com/AkashGillNiet/NietLive/refs/heads/main/images-removebg-preview.png" alt="Search">
+        </button>
+    </div>
+</div>
+
+<!-- Notifications -->
+<div id="notifications">
+    <button id="close-notification" onclick="toggleNotifications()">X</button>
+    <h3>Notifications</h3>
+    <ul>
+        <li>Watch Free Champion trophy all matches!</li>
+        <li>Star Sports is live not now!</li>
+    </ul>
+</div>
+
+<!-- Channels Section -->
+<div id="channels-container">
+    <!-- Channel 1 -->
+    <div class="channel-box">
+        <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzRhBl_bbhnlhefiQvCeS4sCUIKCGB3yaDPw0E19pR5PrYUfl_Dg_jxmk&s=10"
+            target="_blank"> <!-- Link to the new HTML page for Star Sports -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ6aQvFytSPnz6omKTqZ62dVgq7ym3l22KfA&usqp=CAU" alt="Movies">
+            <div class="channel-name">Films•Movies</div>
+        </a>
+    </div>
+    <!-- Channel 2 -->
+    <div class="channel-box">
+        <a href="https://playmaxit.glitch.me/?link=https%3A%2F%2Famg01269-amg01269c1-willowtv-us-5479.playouts.now.amagi.tv%2Fplaylist%2Famg01269-willowtvfast-willowplus-willowtvus%2Fplaylist.m3u8"> <!-- Link to the new HTML page for Sony Ten -->
+            <img class="channel-logo" src="https://www.trillertv.com/thumbs/o/picon/100/1292_200x200.jpg" alt="Willow Sports">
+            <div class="channel-name">Willow Sports</div>
+        </a>
+    </div>
+    <!-- Channel 3 -->
+    <div class="channel-box">
+        <a href="sonykal.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsG1iii9oJ0-z3ApcgFItUDrhrtRwe9IQXbzky5lMAzUhxwJSh3amxeDI&s=10" alt="Sony Kal">
+            <div class="channel-name">Sony Kal</div>
+        </a>
+    </div>
+    <!-- Channel 4 -->
+    <div class="channel-box">
+        <a href="sportsmax.html"> <!-- Link to the new HTML page for Fox Sports -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROo7G28jtn0jHrMdNmrUldE_dbpdwQvR1h92H2BGSdd0GGpTjRjNzbzNU&s=10" alt="SportsMax">
+            <div class="channel-name">Sportsmax</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="sonichindi.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmGkvA1TTzVHHa99jC7mVUwhE9rEJhkJHexc0eq9_BPp2FoTGCS_9MSb0&s=10" alt="Sonic Tv">
+            <div class="channel-name">Sonic Tv</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="sports18hd1.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD8Jhz5c9KzYcU8__FjTrEOLWOFoBg6QMHBw&usqp=CAU" alt="Sports 18 Hd 1">
+            <div class="channel-name">Sports 18 Hd 1</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="mh1.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://jiotvimages.cdn.jio.com/dare_images/images/mh1_Music.png" alt="MH one music">
+            <div class="channel-name">MH one music</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="colorshd.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://smartads.in/resources/assets/uploads/product_group/television/colors-hd.png" alt="Colors Hd">
+            <div class="channel-name">Colors Hd</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="sports18khel.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvWN6sCZ7AqdV2MPTyx3SGDrkVCgObafcCcw&usqp=CAU" alt="Sports 18 Khel">
+            <div class="channel-name">Sports 18 Khel</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="colorsrishtey.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk08nbjLDpwafmx0T-ZhGIfI2m0A51lbq68wkzTpHTFY1cWVaUAgjO-h61&s=10" alt="colors rishtey">
+            <div class="channel-name">Colors Rishtey</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="colorscinehd.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://jiotvimages.cdn.jio.com/dare_images/images/Color_Cineplex_HD.png" alt="colors Cineplex Hd">
+            <div class="channel-name">Colors Cineplex Hd</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="iplhd.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS5p9SuDJapp2Vfnw_WvLAur5CG0fQbUUpuw&usqp=CAU" alt="IPL">
+            <div class="channel-name">Indian Premier League</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="ddsports.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://jiotvimages.cdn.jio.com/dare_images/images/DD_Sports.png" alt="DD sports">
+            <div class="channel-name">DD Sports</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="tnt1.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://yt3.googleusercontent.com/o20nhOnGZuSG8W_gl7LkuSlTKPMZJfDin3VlPFn3C3GcCso-ZhPaDnR7dTEUyyCS5jWB9p7i=s900-c-k-c0x00ffffff-no-rj" alt="TNT Sports 1">
+            <div class="channel-name">TNT Sports 1</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="tnt3.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAWPKVUe-Rpr7-5iiQYnzIoKQdF8auHzZg1U9limUmQFOVPA9OypoH21zK&s=10" alt="TNT Sports 3">
+            <div class="channel-name">TNT Sports 3</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="tencricket.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl3aN0ryLiLSNAhrnn3MnXSPTtEOKGRhKVRJdp_qligKbpjnkRXmTjD_M&s=10" alt="Ten Cricket">
+            <div class="channel-name">Ten Cricket</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="astrocricket.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://images.now-tv.com/shares/channelPreview/img/en_hk/color/ch674_425_305" alt="Astro Cricket">
+            <div class="channel-name">Astro Cricket</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="skysports.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcL1ZfAiMcm7NsWybZ1KJo9ilUUtRfs4S9uMLTklknN2ubWqU4UW2cuU4&s=10" alt="DD sports">
+            <div class="channel-name">Sky Sports Cricket</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="willow2.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ01dikKmlGo5Bpsoa4ZUexSX6O0GgZ6J5B4g&s" alt="Willow 2">
+            <div class="channel-name">Willow 2 Cricbuzz</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="starsports1hindi.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu4YiB-ZScWo0FdMxzzbCpa1-cfuZ4NPRVWA&usqp=CAU" alt="Star sports 1 hindi">
+            <div class="channel-name">Star Sports 1 Hindi</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="primeenglish.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi0gUjb4cmqeT_ZEn4ZV0MNQKR9FeKE6P15Y8PC9wFbGSWjWRHdmMW_QAp&s=10" alt="Prime video">
+            <div class="channel-name">Prime English</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="starsportstelugu.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSuZeEniZ1pU9rCEBKkb_E88_Cm6Q3iE1mjmLe4mkcQ8LObJa-DIQeiV1J&s=10" alt="Star Sports Telugu">
+            <div class="channel-name">Star Sports Telugu</div>
+        </a>
+    </div>
+
+    <div class="channel-box">
+        <a href="primehindi.html"> <!-- Link to the new HTML page for ESPN -->
+            <img class="channel-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi0gUjb4cmqeT_ZEn4ZV0MNQKR9FeKE6P15Y8PC9wFbGSWjWRHdmMW_QAp&s=10" alt="Prime video">
+            <div class="channel-name">Prime Hindi</div>
+        </a>
+    </div>
+    <!-- Add more channel boxes as needed -->
+</div>
+
+<script>
+    function toggleSearch() {
+        const searchInput = document.getElementById('search-input');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const searchBtn = document.getElementById('search-btn');
+
+        if (searchInput.style.display === 'none' || searchInput.style.display === '') {
+            searchInput.style.display = 'block';
+            cancelBtn.style.display = 'block';
+            searchBtn.innerHTML = '<img src="images__2_-removebg-preview (1).png" alt="Cancel">';
+            searchInput.focus();
+        } else {
+            searchInput.style.display = 'none';
+            cancelBtn.style.display = 'none';
+            searchBtn.innerHTML = '<img src="images-removebg-preview.png" alt="Search">';
+            searchInput.value = ""; // सर्च बॉक्स क्लियर करें
+            filterChannels(); // सभी चैनल वापस दिखाएं
+        }
+    }
+
+    function filterChannels() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const channelBoxes = document.querySelectorAll('.channel-box');
+
+        channelBoxes.forEach(box => {
+            const channelName = box.querySelector('.channel-name').textContent.toLowerCase();
+            box.style.display = channelName.startsWith(query) ? "block" : "none";
+        });
+    }
+
+    function toggleNotifications() {
+        const notifications = document.getElementById('notifications');
+        notifications.style.display = notifications.style.display === 'block' ? 'none' : 'block';
+    }
+</script>
+
+</body>
+  </html>
